@@ -1,5 +1,9 @@
 var cart = [];
-var message = '';
+var message;
+
+// Object.keys(cart[i])[0] // vanilla
+// cart[i][Object.keys(cart[i])[0]] // 80
+
 
 function getCart() {
  return cart;
@@ -10,16 +14,19 @@ function setCart(c) {
   return cart;
 }
 
+
+
 function addToCart(item) {
   var itemName = item;
   var itemPrice = Math.ceil(Math.random() * 100);
   var newObj = {[itemName]: itemPrice};
   cart.push(newObj);
-  console.log(`${itemName} has been added to your cart.`);
+  console.log(`${[itemName]} has been added to your cart.`);
   return cart;
 }
 
 function viewCart() {
+  var l;
   switch (cart.length) {
     case 0:
       message = 'Your shopping cart is empty.';
@@ -27,35 +34,39 @@ function viewCart() {
       break;
 
     case 1:
-      message = `In your cart, you have ${cart[0][itemName]} at $${cart[0][itemPrice]}.`;
+      l = 0;
+      message = `In your cart, you have ${Object.keys(cart[l])[0]} at $${cart[l][Object.keys(cart[l])[0]]}.`;
       console.log(message);
       break;
 
     case 2:
-      message = `In your cart, you have ${cart[0].itemName} at $${cart[0].itemPrice} and ${cart[1].itemName} at $${cart[1].itemPrice}.`;
+      message = `In your cart, you have ${Object.keys(cart[0])[0]} at $${cart[0][Object.keys(cart[0])[0]]} and `;
+      message += `${Object.keys(cart[1])[0]} at $${cart[1][Object.keys(cart[1])[0]]}.`;
       console.log(message);
       break;
 
     default:
       message = 'In your cart, you have ';
       for (let i=0; i < cart.length - 1; i++) {
-        message += `${cart[i].itemName} at $${cart[i].itemPrice}, `
+        message += `${Object.keys(cart[i])[0]} at $${cart[i][Object.keys(cart[i])[0]]}, `
       }
-      message += `and ${cart[cart.length-1][0]} at $${cart[cart.length-1].itemPrice}.`
+      l = cart.length - 1;
+      message += `and ${Object.keys(cart[l])[0]} at $${cart[l][Object.keys(cart[l])[0]]}.`
       console.log(message);
       break;
   }
   return message;
+
 }
 
 function total() {
   var cartTotal = parseInt(0);
   if (cart.length > 0) {
     for (let i = 0; i < cart.length; i++) {
-      cartTotal += parseInt(cart[i].itemPrice);
-      console.log(cart[i].itemName);
+      cartTotal += parseInt(cart[i][Object.keys(cart[i])[0]])
     }
-  } else cartTotal = parseInt(0);
+  }
+  else cartTotal = parseInt(0);
   console.log(cartTotal);
   return cartTotal;
 }
@@ -82,12 +93,3 @@ function placeOrder(cardNumber) {
     return cart;
   }
 }
-
-addToCart('vanilla');
-addToCart('watermelon');
-addToCart('yams');
-console.log(cart);
-console.log(cart[0]);
-console.log(cart[0].keys);
-viewCart();
-total();
