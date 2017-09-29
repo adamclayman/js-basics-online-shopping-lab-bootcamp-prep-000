@@ -1,5 +1,5 @@
 var cart = [];
-var message;
+var message = '';
 
 function getCart() {
  return cart;
